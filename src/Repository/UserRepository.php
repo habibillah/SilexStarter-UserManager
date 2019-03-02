@@ -47,7 +47,8 @@ class UserRepository implements UserRepositoryInterface
 
     public function findOneByEmail($email)
     {
-        return $this->userProvider
+        $model = $this->userProvider->createModel();
+        return $model
             ->newQuery()
             ->where('email', '=', $email)
             ->first();
