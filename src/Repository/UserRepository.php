@@ -151,8 +151,9 @@ class UserRepository implements UserRepositoryInterface
     public function register(array $userData) {
 
         $default = [
-            'activated' => 0,
+            'activated' => 1,
             'permissions' => [
+                'trial',
                 'byggplanen-backend.order.create',
                 'byggplanen-backend.gantt.chart.read',
                 'byggplanen-backend.gantt.chart.edit',
@@ -169,11 +170,7 @@ class UserRepository implements UserRepositoryInterface
             ]
         ];
 
-        if ( (isset($userData['permissions']))) {
-            $userData['permissions'] = array_merge($default['permissions'], $userData['permissions']);
-        }
-        
-        $userData = array_replace_recursive($default, $userData);
+        $userData = array_replace($default, $userData);
         return $this->create($userData);
     }
 
