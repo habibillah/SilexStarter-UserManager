@@ -8,6 +8,8 @@ interface UserRepositoryInterface
 
     public function findById($id);
 
+    public function findOneByEmail($email);
+    
     public function findByGroupId($groupId);
 
     public function findByGroupName($groupName);

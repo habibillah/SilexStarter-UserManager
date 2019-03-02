@@ -45,6 +45,14 @@ class UserRepository implements UserRepositoryInterface
         return $this->userProvider->findById($id);
     }
 
+    public function findOneByEmail($email)
+    {
+        return $this->userProvider
+            ->newQuery()
+            ->where('email', '=', $email)
+            ->first();
+    }
+    
     /**
      * {@inheritdoc}
      */
