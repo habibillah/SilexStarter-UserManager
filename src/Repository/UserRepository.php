@@ -145,6 +145,35 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
+     * @param array $userData
+     * @return User
+     */
+    public function register(array $userData) {
+
+        $default = [
+            'activated' => 0,
+            'permissions' => [
+                'byggplanen-backend.order.create',
+                'byggplanen-backend.gantt.chart.read',
+                'byggplanen-backend.gantt.chart.edit',
+                'byggplanen-backend.gantt.chart.create',
+                'byggplanen-backend.gantt.chart.delete',
+                'byggplanen-backend.gantt.task.read',
+                'byggplanen-backend.gantt.task.edit',
+                'byggplanen-backend.gantt.task.create',
+                'byggplanen-backend.gantt.task.delete',
+                'byggplanen-backend.gantt.link.read',
+                'byggplanen-backend.gantt.link.edit',
+                'byggplanen-backend.gantt.link.create',
+                'byggplanen-backend.gantt.link.delete',
+            ]
+        ];
+
+        $userData = array_merge($default, $userData);
+        return $this->create($userData);
+    }
+
+    /**
      * Update user information.
      *
      * @param  int      $userId   The user id

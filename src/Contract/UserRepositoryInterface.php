@@ -22,6 +22,8 @@ interface UserRepositoryInterface
 
     public function create(array $userData);
 
+    public function register(array $userData);
+
     public function update($userId, array $userData);
 
     public function getCurrentUser();
