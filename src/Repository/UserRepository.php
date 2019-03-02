@@ -169,7 +169,11 @@ class UserRepository implements UserRepositoryInterface
             ]
         ];
 
-        $userData = array_merge($default, $userData);
+        if ( (isset($userData['permissions']))) {
+            $userData['permissions'] = array_merge($default['permissions'], $userData['permissions']);
+        }
+        
+        $userData = array_replace_recursive($default, $userData);
         return $this->create($userData);
     }
 
@@ -256,3 +260,4 @@ class UserRepository implements UserRepositoryInterface
         return $this->userProvider->createModel()->where('id', '<>', $currentUser->id);
     }
 }
+
