@@ -196,11 +196,11 @@ class UserRepository implements UserRepositoryInterface
         $user   = $this->sentry->findUserById($userId);
         $groups = isset($userData['groups']) ? $userData['groups'] : [];
 
-        if ($userData['password'] !== $userData['confirm_password']) {
+        if (isset($userData['password']) && $userData['password'] !== $userData['confirm_password']) {
             throw new Exception("Password and confirmation password mismatch", 1);
         }
 
-        if (!$userData['password']) {
+        if (isset($userData['password']) && !$userData['password']) {
             unset($userData['password']);
         }
 
@@ -223,16 +223,16 @@ class UserRepository implements UserRepositoryInterface
             foreach ($userPermissions as $permission) {
                 $userData['permissions'][$permission] = 1;
             }
+
+            $permissions = $this->permissionRepo->findAll();
+            $defaultPermissions = [];
+
+            foreach ($permissions as $permission) {
+                $defaultPermissions[$permission->name] = 0;
+            }
+
+            $userData['permissions'] = array_merge($defaultPermissions, $userData['permissions']);
         }
-
-        $permissions = $this->permissionRepo->findAll();
-        $defaultPermissions = [];
-
-        foreach ($permissions as $permission) {
-            $defaultPermissions[$permission->name] = 0;
-        }
-
-        $userData['permissions'] = array_merge($defaultPermissions, $userData['permissions']);
 
         $user->update($userData);
 
